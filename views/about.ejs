@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+        <style>
+            html{
+                font-family: "Inter", sans-serif;
+                font-optical-sizing: auto;
+                font-style: normal;
+                font-variation-settings: "slnt" 0;
+                color: black;
+            }
+            body{
+                display: flex;
+                flex-direction: column;
+                
+                align-items: center;
+                
+                
+                
+                
+                width: 100%;
+                height: 100%;
+                margin: 50px 0 50px 0;
+
+            }
+            /* for the global navigation 1/2 */
+            #WWLogo{
+            height: 40px;
+            align-self: center;
+            justify-self: center;
+            }
+            #WWLogo:hover{
+                color: gray;
+            }
+            #globalnav {
+                position: relative;
+                height: min-content;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                
+
+            }
+            
+
+
+            #navtop{
+                
+                border: 2.5px solid black ;
+                border-radius: 100px;
+                width: 80vw;
+                height: 55px;
+
+                display: flex;
+                flex-direction: row;
+                align-self: center;
+                align-items: center;
+                justify-content: space-evenly;
+                
+                
+
+            }
+
+            #navtop a{
+                    text-decoration: none;
+                    color: black;
+                    
+            }
+
+            #navtop a:hover{
+                color: grey;
+            }
+
+            /* for the global navigation 2/2 */
+
+            #navsearch{
+                margin: 10px 0 10px 0;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-self: center;
+                align-items: center;
+                justify-content: space-evenly;
+            }
+
+            #barcontainer{
+                display: flex;
+            }
+
+            #searchbar{
+                box-sizing: border-box;
+                padding: 10px;
+                border: 2.5px solid black ;
+                border-radius: 100px;
+                width: 30vw;
+                height: 30px;
+                font-size: inherit;
+                
+            }
+
+            #randomword{
+                border: 2px solid black ;
+                border-radius: 100px;
+                width: 150px;
+                height: 30px;
+                font-family: inherit;
+                background-color: white;
+            }
+            #randomword:hover{
+                background-color: black;
+                color: white;
+            }
+
+            #pagetitle{
+                position: relative;
+                top: 5px;
+                margin: 0;
+                text-align: center;
+                letter-spacing: 4px;
+                font-weight: 300;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+                
+                background: black;
+                color: white;
+                
+                border: 2.5px solid black;
+                border-radius: 25px 25px 0 0;
+                width: 20%;
+                height: 50px;
+            }
+            #divider{
+                margin: 0;
+                border: 2px solid black ;
+                border-radius: 100px;
+                position: relative;
+                top: -10px;
+                width: 100vw;
+                margin-bottom: 10px;
+                
+                
+            }
+            /* ---------------------------------------------------------------------- */
+
+            /* for the main content of webpage */
+            #about {
+                width: 70%;
+                max-width: max-content;
+                border-style: solid;
+                border-width: 2.5px;
+                border-radius: 25px;
+                margin:10px;
+
+                margin-top: 30px;
+                padding: 20px;
+                display: flex;
+                flex-direction: row;
+                
+
+                
+            }
+
+            #main {
+                width: 60%;
+                float: left;
+            }
+
+            #api {
+                width: fit-content;
+                float: right;
+            }
+
+
+
+
+        </style>
+    </head>
+    <body>
+    
+    <div id="globalnav">
+        <!--Global Navigation-->
+    
+            <!-- Navigation-->
+        <nav id="navtop">
+            
+            <a onclick="redirect('browse')">Browse</a>
+            <a onclick="redirect('games')">Games</a>
+            <a onclick="redirect('home')"><img id="WWLogo"src="\images\WWlogo.png" alt="WW"></a>
+            <a onclick="redirect('about')">About</a>
+            <a onclick="redirect('settings')">Settings</a>
+            
+        </nav>
+    
+        <div id="navsearch">
+        <h2 id="pagetitle">Home</h3>
+    
+                <!-- Search bar-->
+        <form name="searchForm" action="GET" onsubmit="searchWord(); return false;">
+            <div id="barcontainer">
+            <img src="\images\icons8-search.svg" alt="icon" id="searchicon">
+            <input type="text" name="searchbar" id="searchbar">
+            </div>
+        </form>
+        <h3>|</h3>
+    
+                <!-- Random Word Button-->
+        <button id="randomword" onclick="">Random Word</button>
+        </div>
+    </div>
+    <hr id="divider">
+    
+
+    <!-- Main Page -->
+    <div id="about">
+        <div id="main">
+            <h3>About us</h3>
+            <p>
+                This dictionary puts a twist on your typical dictionary website.
+                 While providing the same concepts and core aspects of a
+                 regular dictionary, we include a vast amount of games to keep 
+                 you entertained and knowledgeable. Our minimalistic website 
+                provides the most basic and simple presentation of a dictionary.
+                <br><br>
+                This website was created for an INST377 Dynamic Web Applications
+                class at the University of Maryland. Contributors include: 
+                Abraham Lefevre, Afraah Goshu, Brandon Dang, Brian Lee, and 
+                Nikita Alexandrovich Lukyanov.
+            </p>
+        </div>
+        <div id="api">
+            <h3>APIs Used</h3>
+            <p>
+                The APIs used and referenced to create this website are:
+                <br>
+                <a href="https://dictionaryapi.dev/">DictionaryAPI</a>
+                <br>
+                <a href="https://en.wikipedia.org/wiki/Wiktionary">Wiktionary</a>
+                 (is the main reference for <a href="https://dictionaryapi.dev/">DictionaryAPI</a>)
+                <br>
+                <a href="https://www.wordsapi.com/docs/">WordsAPI</a>
+                <br>
+                <a href="https://random-words-api.vercel.app/word">RandomWordsAPI</a>
+                <br><br>
+            </p>
+        </div>
+    </div>
+    <script>
+
+        function redirect(address){
+            let buffer = "http://localhost:3000/"+address
+            //alert(buffer)
+            window.location.replace(buffer)
+        }
+
+        async function searchWord(){
+        let getWord="";
+        const searchItem = document.searchForm.searchbar.value;
+        if (!searchItem){
+            console.log("no input");
+            return false;
+        }
+        try {
+            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${searchItem}`);
+            getWord = await response.json();
+            
+            if (!getWord) {
+            console.log('word not found');
+            return;
+            }
+            
+            console.log('reached2');
+        } catch (error) {
+            console.log('error');
+            return;
+        }
+
+        // Save data to cache 
+        localStorage.setItem('wordData', JSON.stringify(getWord));
+        localStorage.setItem('searchItem', searchItem);
+
+
+        // Change location to browse
+        window.location.href = '/htmlfiles/browse.html';
+        }
+
+        document.searchForm.addEventListener('submit', (event) => {
+
+        searchWord();
+        console.log('reached');
+        });
+
+    </script>
+</body>
