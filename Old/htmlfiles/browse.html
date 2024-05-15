@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stifled</title> <!-- Subject to Change with JS implementation-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../cssfiles/browse.css">    
+    <script  src="\javascriptfiles\search.js" defer></script>
+</head>
+<body>
+
+<div id="globalnav">
+    <!--Global Navigation-->
+
+        <!-- Navigation-->
+    <nav id="navtop">
+        
+        <a href="browse.html">Browse</a>
+        <a href="games.html">Games</a>
+        <a href="home.html" ><img id="WWLogo"src="\images\WWlogo.png" alt="WW"></a>
+        <a href="about.html">About</a>
+        <a href="settings.html">Settings</a>
+    </nav>
+
+    <div id="navsearch">
+    <h2 id="pagetitle">Browse</h3>
+
+            <!-- Search bar-->
+    <form name="searchForm" action="GET" onsubmit="searchWord(); return false;">
+        <div id="barcontainer">
+        <img src="\images\icons8-search.svg" alt="icon" id="searchicon">
+        <input type="text" name="searchbar" id="searchbar">
+        </div>
+    </form>
+    <h3>|</h3>
+
+            <!-- Random Word Button-->
+    <button id="randomword" onclick="return false;">Random Word</button>
+    </div>
+</div>
+<hr id="divider">
+
+
+
+
+    <!--Searched Word-->
+<div id="wordwidget">
+    <div id="wordbox">
+        <div id="header">
+        <h1 id="wordTitle">Stifled</h1>
+        <!--Note: parts of speech VS part of speech-->
+        <p id="partsofspeech">(Adj., Verb)</p>
+        </div>
+        <hr>
+        <div id = "definitions">
+            <div id="define">
+            <h3 id="partofspeech"> Adjective</h3>
+            <p id="definition">That has been interrupted, suppressed etc.</p>
+            <p id="example">The stifled attempt at reform led to further resentment.</p>
+        </div>
+
+        <div id="define">
+            <h3 id="partofspeech">Verb</h3>
+            <p id="definition">That has been interrupted, suppressed etc.</p>
+        </div>
+        </div>
+        
+
+
+    </div>
+</div>
+
+
+<script defer>
+
+
+async function displayWord(getWord, searchItem) {
+
+  // word header
+  const wordPart = document.getElementById("wordTitle");
+  // part of speech header
+  const posPart = document.getElementById("partsofspeech");
+  // definition
+  const definitionPart = document.getElementById("definitions");
+  definitionPart.innerHTML = "";
+
+  let PoSarr = [];
+
+  const plaintext = searchItem;
+  console.log(plaintext);
+  const formattedText = plaintext.charAt(0).toUpperCase() + plaintext.slice(1);
+
+  wordPart.innerHTML = formattedText;
+
+  if (getWord.title=="No Definitions Found"){
+    console.log('No word data found');
+   
+    document.getElementById('partsofspeech').innerHTML="";
+    definitionPart.innerHTML = "No definition found. Try another search!";
+    
+    return false;
+  }
+  for (let i = 0; i < getWord[0].meanings.length; i++) {
+    PoSarr.push(getWord[0].meanings[i].partOfSpeech + "");
+
+    const PoS = document.createElement("h3");
+    const PoSnode = document.createTextNode(getWord[0].meanings[i].partOfSpeech);
+    const formattedPOS = document.createTextNode(PoSnode.textContent.charAt(0).toUpperCase() + PoSnode.textContent.slice(1));
+    PoS.appendChild(formattedPOS);
+
+    const def = document.createElement("p");
+    const defNode = document.createTextNode(getWord[0].meanings[i].definitions[0].definition);
+    def.appendChild(defNode);
+
+    definitionPart.appendChild(PoS);
+    definitionPart.appendChild(def);
+
+    if ((getWord[0].meanings[i].definitions[0].example + "") !== "undefined") {
+      const ex = document.createElement('h3');
+      ex.innerText = "Example: ";
+      ex.style.fontStyle = 'italic';
+
+      
+      const sentenceUse = document.createElement("p");
+      const sentenceUseNode = document.createTextNode(getWord[0].meanings[i].definitions[0].example);
+
+      sentenceUse.append(ex);
+      sentenceUse.appendChild(sentenceUseNode);
+      definitionPart.appendChild(sentenceUse);
+    }
+  }
+  posPart.innerHTML = "(" + PoSarr + ")";
+
+  localStorage.setItem('wordData', "");
+  localStorage.setItem('searchItem', "");
+}
+window.onload = async function() {
+  let getWord = JSON.parse(localStorage.getItem('wordData'));
+  let searchItem = localStorage.getItem('searchItem');
+  console.log(getWord);
+  
+
+  displayWord(getWord, searchItem);
+} 
+</script>
+</body>
+</html>

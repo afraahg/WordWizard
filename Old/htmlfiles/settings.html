@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="\cssfiles\settings.css">    
+        <script src="\javascriptfiles\search.js" defer></script>
+    </head>
+    <body>
+    
+    <div id="globalnav">
+        <!--Global Navigation-->
+    
+            <!-- Navigation-->
+        <nav id="navtop">
+            
+            <a href="browse.html">Browse</a>
+            <a href="games.html">Games</a>
+            <a href="home.html" ><img id="WWLogo"src="\images\WWlogo.png" alt="WW"></a>
+            <a href="about.html">About</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+    
+        <div id="navsearch">
+        <h2 id="pagetitle">Home</h3>
+    
+                <!-- Search bar-->
+        <form name="searchForm" action="GET" onsubmit="searchWord(); return false;">
+            <div id="barcontainer">
+            <img src="\images\icons8-search.svg" alt="icon" id="searchicon">
+            <input type="text" name="searchbar" id="searchbar">
+            </div>
+        </form>
+        <h3>|</h3>
+    
+                <!-- Random Word Button-->
+        <button id="randomword" onclick="">Random Word</button>
+        </div>
+    </div>
+    <hr id="divider">
+    
+
+   <!-- Main Page -->
+   <div id="setting">
+    <div id="main">
+        <h2 id="lightDark">Lightmode/Darkmode</h2>
+        <button onclick="darkMode()">On/Off</button>
+        <br>
+        <h2>Font Size</h2>
+        <div id="fontButtons">
+            <button type="button" id="fontSizeButtonS">A</button>
+            <button type="button" id="fontSizeButtonM">A</button>
+            <button type="button" id="fontSizeButtonL">A</button>
+        </div>
+        <br>
+        <div id="ttsBox">
+            <h2 id="ttsLabel">Text to Speech</h>
+            <p id="tts">Speaks items on the screen, highlight item to use</p>
+            <button>On/Off</button>
+        </div>
+
+
+    </div>
+</div>
+<script>
+    function darkMode() {
+            var element = document.body;
+            element.classList.toggle("dark-mode");
+        }
+</script>
+</body>
+</html>
