@@ -17,7 +17,7 @@ accessibility features.
 Users will create a word train using the last letter of a word to start a new word
 #### Type racer game
 Users quickly type words after given a definition
-#### Syn/Ant-onymU
+#### Syn/Ant-onym
 Users are given a definition and must answer a synonym and antonym to the word. 
 
 ## Target Browsers
