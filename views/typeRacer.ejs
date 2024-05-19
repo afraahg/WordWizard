@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stifled</title> <!-- Subject to Change with JS implementation-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"> 
+
+    <style>
+
+        button{
+            width: 200px;
+            align-self: center;
+        }
+
+      html{
+          font-family: "Inter", sans-serif;
+          font-optical-sizing: auto;
+          font-style: normal;
+          font-variation-settings: "slnt" 0;
+          color: black;
+      }
+      body{
+          display: flex;
+          flex-direction: column;
+          
+          align-items: center;
+          
+          
+          
+          width: 100%;
+          height: 100%;
+          margin: 50px 0 50px 0;
+
+      }
+      /* for the global navigation 1/2 */
+      #WWLogo{
+        height: 40px;
+        align-self: center;
+        justify-self: center;
+      }
+      #WWLogo:hover{
+          color: gray;
+      }
+      #globalnav {
+          position: relative;
+          height: min-content;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          
+
+        }
+        
+
+
+      #navtop{
+          
+          border: 2.5px solid black ;
+          border-radius: 100px;
+          width: 80vw;
+          height: 55px;
+
+          display: flex;
+          flex-direction: row;
+          align-self: center;
+          align-items: center;
+          justify-content: space-evenly;
+          
+          
+
+      }
+
+      #navtop a{
+              text-decoration: none;
+              color: black;
+              
+      }
+
+      #navtop a:hover{
+          color: grey;
+      }
+
+      /* for the global navigation 2/2 */
+
+      #navsearch{
+          margin: 10px 0 10px 0;
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          align-self: center;
+          align-items: center;
+          justify-content: space-evenly;
+      }
+
+      #barcontainer{
+          display: flex;
+      }
+
+      #searchbar{
+          box-sizing: border-box;
+          padding: 10px;
+          border: 2.5px solid black ;
+          border-radius: 100px;
+          width: 30vw;
+          height: 30px;
+          font-size: inherit;
+          
+      }
+
+      #randomword{
+          border: 2px solid black ;
+          border-radius: 100px;
+          width: 150px;
+          height: 30px;
+          font-family: inherit;
+          background-color: white;
+      }
+      #randomword:hover{
+          background-color: black;
+          color: white;
+      }
+
+      #pagetitle{
+          position: relative;
+          top: 5px;
+          margin: 0;
+          text-align: center;
+          letter-spacing: 4px;
+          font-weight: 300;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          
+          
+          background: black;
+          color: white;
+          
+          border: 2.5px solid black;
+          border-radius: 25px 25px 0 0;
+          width: 20%;
+          height: 50px;
+      }
+      #divider{
+          margin: 0;
+          border: 2px solid black ;
+          border-radius: 100px;
+          position: relative;
+          top: -10px;
+          width: 100vw;
+          margin-bottom: 10px;
+          
+          
+      }
+      /* ---------------------------------------------------------------------- */
+
+      /* for the main content of webpage */
+
+
+
+      /* for each word that appears in results*/
+      #wordwidget{
+          margin: 10px;
+          padding: 30px;
+          border: 2.5px solid black ;
+          border-radius: 25px;
+          width: 60%;
+          min-height: max-content;
+          max-height: min-content;
+
+
+          display: flex;
+          flex-direction: column;
+          flex-wrap: nowrap;
+      }
+      #partsofspeech{
+          font-size: 20px;
+          margin-left: 50px;
+      }
+      #header{
+          width: 50%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+      }
+
+
+
+    </style>
+</head>
+<body>
+
+<div id="globalnav">
+    <!--Global Navigation-->
+
+        <!-- Navigation-->
+    <nav id="navtop">
+        
+      <a onclick="redirect('browse')">Browse</a>
+      <a onclick="redirect('games')">Games</a>
+      <a onclick="redirect('home')"><img id="WWLogo"src="\images\WWlogo.png" alt="WW"></a>
+      <a onclick="redirect('about')">About</a>
+      <a onclick="redirect('settings')">Settings</a>
+    </nav>
+
+    <div id="navsearch">
+    <h2 id="pagetitle">Browse</h3>
+
+            <!-- Search bar-->
+    <form name="searchForm" action="GET" onsubmit="searchWord(); return false;">
+        <div id="barcontainer">
+        <img src="\images\icons8-search.svg" alt="icon" id="searchicon">
+        <input type="text" name="searchbar" id="searchbar">
+        </div>
+    </form>
+    <h3>|</h3>
+
+            <!-- Random Word Button-->
+    <button id="randomword" onclick="return false;">Random Word</button>
+    </div>
+</div>
+<hr id="divider">
+
+
+
+<div id="wordwidget">
+    <button onclick="startGame()">start</button>
+    <button onclick="gameStop()">Reset</button>
+</div>
+<div id="wordwidget">
+    <div id="resultsDiv">
+    </div>
+</div>
+
+
+<script>
+
+
+async function test(){
+    const response = await fetch('/testRequest', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+            "houseNumber": 30,
+        }),
+        });
+    const data = await response.json();
+
+    let string = data['testVar']
+    string = string.replaceAll('[',' ');
+    string = string.replaceAll(']',' ');
+    string = string.replaceAll('(',' ');
+    string = string.replaceAll(')',' ');
+    string = string.replaceAll('\'',' ');
+    console.log("this is the string")
+    console.log(string)
+
+    var stringArray = string.split(",");
+    var stringArray2d = new Array();
+    for (var i = 0; i < stringArray2d.length; i++) {
+        stringArray2d[i] = stringArray2d[i];
+    }
+    console.log(stringArray2d)
+}
+    
+
+
+
+    const api_url ="https://random-word-api.herokuapp.com/word?lang=en";
+
+
+    async function getapi(){
+        const response = await fetch(api_url);
+        var data = await response.json();
+        word = data.toString()
+        word.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        update()
+        gameStarted = true
+    }
+
+
+    //============================================================= TYPE RACER
+        gameStarted = false
+        let word ="test"
+        let score2 = 0 
+
+        function startGame(){
+            console.log("game started")
+            gameStarted = true
+            getWord()
+        }
+
+        function getWord(){
+           getapi()
+           gameStarted = false
+        }
+        function update(){
+            document.getElementById("resultsDiv").innerHTML = word
+        }
+        function gameStop(){
+            gameStarted = false
+            word = ""
+            update()
+        }
+
+         document.getElementById("resultsDiv").innerHTML
+
+        window.addEventListener("keydown", function (event) {
+            if (event.defaultPrevented || !gameStarted) {
+                return;
+            }
+
+            if(word.charAt(0).toLowerCase() == event.key){
+                word = word.substring(1)
+            }
+
+            update()
+            if(document.getElementById("resultsDiv").innerHTML.length < 1){
+                getWord()
+                score2++
+                update()
+            }
+            event.preventDefault();
+        }, true);
+    //============================================================= WORD CHAIN
+    //============================================================= OTHER FUNCTIONS
+
+        function redirect(address){
+            let buffer = "http://localhost:3000/"+address
+            //alert(buffer)
+            window.location.replace(buffer)
+        }
+
+        async function searchWord(){
+        let getWord="";
+        const searchItem = document.searchForm.searchbar.value;
+        if (!searchItem){
+            console.log("no input");
+            return false;
+        }
+        try {
+            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${searchItem}`);
+            getWord = await response.json();
+            
+            if (!getWord) {
+            console.log('word not found');
+            return;
+            }
+            
+            console.log('reached2');
+        } catch (error) {
+            console.log('error');
+            return;
+        }
+
+        // Save data to cache 
+        localStorage.setItem('wordData', JSON.stringify(getWord));
+        localStorage.setItem('searchItem', searchItem);
+
+
+        // Change location to browse
+        window.location.href = 'browse';
+        }
+
+        document.searchForm.addEventListener('submit', (event) => {
+        searchWord();
+        console.log('reached');
+        });
+
+</script>
+</body>
+</html>

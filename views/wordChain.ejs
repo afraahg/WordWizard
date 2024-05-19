@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stifled</title> <!-- Subject to Change with JS implementation-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"> 
+
+    <style>
+      html{
+          font-family: "Inter", sans-serif;
+          font-optical-sizing: auto;
+          font-style: normal;
+          font-variation-settings: "slnt" 0;
+          color: black;
+      }
+      body{
+          display: flex;
+          flex-direction: column;
+          
+          align-items: center;
+          
+          
+          
+          width: 100%;
+          height: 100%;
+          margin: 50px 0 50px 0;
+
+      }
+      /* for the global navigation 1/2 */
+      #WWLogo{
+        height: 40px;
+        align-self: center;
+        justify-self: center;
+      }
+      #WWLogo:hover{
+          color: gray;
+      }
+      #globalnav {
+          position: relative;
+          height: min-content;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          
+
+        }
+        
+
+
+      #navtop{
+          
+          border: 2.5px solid black ;
+          border-radius: 100px;
+          width: 80vw;
+          height: 55px;
+
+          display: flex;
+          flex-direction: row;
+          align-self: center;
+          align-items: center;
+          justify-content: space-evenly;
+          
+          
+
+      }
+
+      #navtop a{
+              text-decoration: none;
+              color: black;
+              
+      }
+
+      #navtop a:hover{
+          color: grey;
+      }
+
+      /* for the global navigation 2/2 */
+
+      #navsearch{
+          margin: 10px 0 10px 0;
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          align-self: center;
+          align-items: center;
+          justify-content: space-evenly;
+      }
+
+      #barcontainer{
+          display: flex;
+      }
+
+      #searchbar{
+          box-sizing: border-box;
+          padding: 10px;
+          border: 2.5px solid black ;
+          border-radius: 100px;
+          width: 30vw;
+          height: 30px;
+          font-size: inherit;
+          
+      }
+
+      #randomword{
+          border: 2px solid black ;
+          border-radius: 100px;
+          width: 150px;
+          height: 30px;
+          font-family: inherit;
+          background-color: white;
+      }
+      #randomword:hover{
+          background-color: black;
+          color: white;
+      }
+
+      #pagetitle{
+          position: relative;
+          top: 5px;
+          margin: 0;
+          text-align: center;
+          letter-spacing: 4px;
+          font-weight: 300;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          
+          
+          background: black;
+          color: white;
+          
+          border: 2.5px solid black;
+          border-radius: 25px 25px 0 0;
+          width: 20%;
+          height: 50px;
+      }
+      #divider{
+          margin: 0;
+          border: 2px solid black ;
+          border-radius: 100px;
+          position: relative;
+          top: -10px;
+          width: 100vw;
+          margin-bottom: 10px;
+          
+          
+      }
+      /* ---------------------------------------------------------------------- */
+
+      /* for the main content of webpage */
+
+
+
+      /* for each word that appears in results*/
+      #wordwidget{
+          margin: 10px;
+          padding: 30px;
+          border: 2.5px solid black ;
+          border-radius: 25px;
+          width: 60%;
+          min-height: max-content;
+          max-height: min-content;
+
+
+          display: flex;
+          flex-direction: column;
+          flex-wrap: nowrap;
+      }
+      #partsofspeech{
+          font-size: 20px;
+          margin-left: 50px;
+      }
+      #header{
+          width: 50%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+      }
+
+
+
+    </style>
+</head>
+<body>
+
+<div id="globalnav">
+    <!--Global Navigation-->
+
+        <!-- Navigation-->
+    <nav id="navtop">
+        
+      <a onclick="redirect('browse')">Browse</a>
+      <a onclick="redirect('games')">Games</a>
+      <a onclick="redirect('home')"><img id="WWLogo"src="\images\WWlogo.png" alt="WW"></a>
+      <a onclick="redirect('about')">About</a>
+      <a onclick="redirect('settings')">Settings</a>
+    </nav>
+
+    <div id="navsearch">
+    <h2 id="pagetitle">Browse</h3>
+
+            <!-- Search bar-->
+    <form name="searchForm" action="GET" onsubmit="searchWord(); return false;">
+        <div id="barcontainer">
+        <img src="\images\icons8-search.svg" alt="icon" id="searchicon">
+        <input type="text" name="searchbar" id="searchbar">
+        </div>
+    </form>
+    <h3>|</h3>
+
+            <!-- Random Word Button-->
+    <button id="randomword" onclick="return false;">Random Word</button>
+    </div>
+</div>
+<hr id="divider">
+
+
+<div id="wordwidget">
+    <input type="text" id="input">
+    <button onclick="sendWord()">Send</button>
+    <button onclick="gameReset()">Reset</button>
+    <div id="scoreDiv" style="text-align: center;">
+
+    </div>
+</div>
+<div id="wordwidget">
+    <div id="resultsDiv">
+    </div>
+</div>
+
+
+<script>
+    //============================================================= TYPE RACER
+    //============================================================= WORD CHAIN
+
+
+        var list = []
+        var score = 0
+        var gameOverState = false
+        
+
+        function sendWord(){
+            document.getElementById('resultsDiv').innerHTML = list
+            
+            if(document.getElementById("input").value.length<3){
+                alert("Words can't be shorter than 3 letters, Sorry!")
+                return
+            }
+
+            if(gameOverState)return;
+
+            if(list.length < 1){
+                list.push(document.getElementById("input").value)
+                score++
+                document.getElementById('resultsDiv').innerHTML = list
+                return
+            }
+            else{
+                let prevWord = list[list.length - 1].toLowerCase()
+                let nextWord = document.getElementById("input").value.toLowerCase()
+
+                let prevWordLastLetter = prevWord.charAt(prevWord.length - 1).toLowerCase()
+                let nextWordFirstLetter = nextWord.charAt(0).toLowerCase()
+
+                if(!list.includes(nextWord)){
+                    if(prevWordLastLetter == nextWordFirstLetter){
+                        score ++ 
+                    }
+                    else{
+                        gameOver()
+                    }
+                }
+                else{
+                    gameOver()
+                    document.getElementById('resultsDiv').innerHTML = list
+                    return
+                }
+                list.push(document.getElementById("input").value)
+                document.getElementById('resultsDiv').innerHTML = list
+            }
+        }
+
+        function gameOver(){
+            alert("Game Over, Your score is : " + score)
+            document.getElementById('scoreDiv').innerHTML = "Game Over, Your score is : " + score
+            gameOverState = true
+        }
+
+        function gameReset(){
+            list = []
+            score = 0
+            gameOverState = false
+            document.getElementById('resultsDiv').innerHTML = ""
+        }
+
+
+
+        function apend(text){
+            let ele = document.getElementById('resultsDiv');
+            ele.innerHTML += text;
+        }
+
+    //============================================================= OTHER FUNCTIONS
+
+        function redirect(address){
+            let buffer = "http://localhost:3000/"+address
+            //alert(buffer)
+            window.location.replace(buffer)
+        }
+
+        async function searchWord(){
+        let getWord="";
+        const searchItem = document.searchForm.searchbar.value;
+        if (!searchItem){
+            console.log("no input");
+            return false;
+        }
+        try {
+            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${searchItem}`);
+            getWord = await response.json();
+            
+            if (!getWord) {
+            console.log('word not found');
+            return;
+            }
+            
+            console.log('reached2');
+        } catch (error) {
+            console.log('error');
+            return;
+        }
+
+        // Save data to cache 
+        localStorage.setItem('wordData', JSON.stringify(getWord));
+        localStorage.setItem('searchItem', searchItem);
+
+
+        // Change location to browse
+        window.location.href = 'browse';
+        }
+
+        document.searchForm.addEventListener('submit', (event) => {
+        searchWord();
+        console.log('reached');
+        });
+
+</script>
+</body>
+</html>
