@@ -374,8 +374,25 @@
                 }
             }
         }
-
-        window.addEventListener('load', randomWordButton);
+        async function randomWord(){
+            const response = await fetch(api_url);
+            var data = await response.json();
+            // word = data.toString();
+            console.log(data);
+            
+            for(let i=0; i < 10; i++) {
+                const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${data[i].toString()}`)
+                getWord = await res.json();
+                console.log("WORDS", getWord);
+                if(getWord["title"] != "No Definitions Found") {
+                    // Save data to cache 
+                    localStorage.setItem('wordData', JSON.stringify(getWord));
+                    localStorage.setItem('searchItem', data[i].toString());
+                    break;
+                }
+            }
+        }
+        window.addEventListener('load', randomWord);
 
         async function searchWord(){
         let getWord="";
