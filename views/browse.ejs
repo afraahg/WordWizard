@@ -300,6 +300,31 @@
             
             return false;
           }
+            
+            console.log(plaintext);
+            let insertWord = '/insertWord/' + plaintext;
+            
+            let queriedWord = '/WordSearch/' + plaintext;
+
+            //let updateWord = '/updateWord/' + word + '/3';
+            
+            //await fetch(updateWord)
+            //await fetch(insertWord);
+
+            const wordsDbFind = await fetch(queriedWord).then((res) => res.json());
+            
+            if(wordsDbFind.length == 0){
+                await fetch(insertWord);
+                console.log('2');
+            }
+            else{
+                let newNumber = wordsDbFind[0].Count +1;
+                
+                let updateWord = '/updateWord/' + plaintext + '/' + newNumber;
+                await fetch(updateWord);
+                console.log("3")
+            }
+
           for (let i = 0; i < getWord[0].meanings.length; i++) {
             PoSarr.push(getWord[0].meanings[i].partOfSpeech + "");
 
@@ -430,6 +455,7 @@
         searchWord();
         console.log('reached');
         });
+    
 </script>
 </body>
 </html>

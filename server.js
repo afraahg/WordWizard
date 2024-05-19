@@ -102,3 +102,61 @@ function runQuery(query){
         answer = data.toString()
     });
 }
+
+const supabaseClient = require('@supabase/supabase-js')
+
+const supabaseUrl = 'https://mdazieiqdwqszmkyhbdz.supabase.co'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kYXppZWlxZHdxc3pta3loYmR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTYwOTcxMDQsImV4cCI6MjAzMTY3MzEwNH0.EDfQSulRMz_deJiBk8yyEfL0Hy4U5Bb4nBGYVeyUQpA'
+const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey)
+
+app.get('/topWords', async (req, res) =>{
+  console.log("attempt to get")
+
+  const {data, error} = await supabase
+    .from('countedWords')
+    .select()
+    .order('Count', {ascending: false})
+    .limit(5)
+  console.log('Data:', data)
+  console.log('Error:', error)
+
+  res.send(data)
+
+})
+
+app.get('/WordSearch/:word', async (req, res) =>{
+    let word = req.params.word
+    const {data, error} = await supabase
+        .from('countedWords')
+        .select()
+        .eq('Word', word)
+    console.log('Data:', data)
+    console.log('Error:', error)
+
+    res.send(data)
+      
+})
+
+app.get('/insertWord/:word', async(req, res) =>{
+    let word = req.params.word
+    const { error } = await supabase
+        .from('countedWords')
+        .insert({Word: word, Count : 1 })
+    console.log('Error:', error)
+
+    res.sendStatus(200)
+})
+
+app.get('/updateWord/:word/:number', async(req, res) =>{
+    let word = req.params.word
+    let number = req.params.number
+    const { error } = await supabase
+        .from('countedWords')
+        .update({Count : number })
+        .eq('Word', word)
+    console.log('Error:', error)
+
+    res.sendStatus(200)
+})
+
+app.get('insert')

@@ -282,7 +282,15 @@
                 <!-- </div> -->
         </div>
         
-    </div>  
+    </div>
+    <h3>Top Searched Words</h3>  
+    <table id = topWords style="border: solid;">
+        <tr>
+            <th>Word</th>
+            <th>Total Searches</th>
+        </tr>  
+    </table>
+    
     <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
     <script>
         const options = {
@@ -367,6 +375,7 @@
             localStorage.setItem('searchItem', searchItem);
 
 
+
             // Change location to browse
             window.location.href = '/browse';
         }
@@ -382,6 +391,61 @@
             transitionTime:1,
             delay:3.5
         });
+
+        async function topWordTable(){ /*
+            
+            let word = 'green';
+
+            let insertWord = '/insertWord/' + word;
+            
+            let queriedWord = '/WordSearch/' + word;
+
+            //let updateWord = '/updateWord/' + word + '/3';
+            
+            //await fetch(updateWord)
+            //await fetch(insertWord);
+
+            const wordsDbFind = await fetch(queriedWord).then((res) => res.json());
+            
+            if(wordsDbFind.length == 0){
+                await fetch(insertWord);
+                console.log('2');
+            }
+            else{
+                let newNumber = wordsDbFind[0].Count +1;
+                
+                let updateWord = '/updateWord/' + word + '/' + newNumber;
+                await fetch(updateWord);
+                console.log("3")
+            }*/
+
+            const wordsDbStats = await fetch('/topWords').then((res) => res.json());
+            
+            
+
+            for(let i=0; i< wordsDbStats.length ; i++){
+                tr = document.createElement("tr");
+                let topWord = document.createElement("td");
+                let wordCount = document.createElement("td");
+
+                wordCount.innerHTML = wordsDbStats[i].Count;
+                topWord.innerHTML = wordsDbStats[i].Word;
+
+                tr.appendChild(topWord);
+                tr.appendChild(wordCount);
+                console.log(wordsDbStats[i]);
+                document.getElementById("topWords").appendChild(tr);
+
+            }
+
+            
+
+
+            
+        }
+        
+        window.onload = topWordTable();
+
     </script>
     
 </body>
