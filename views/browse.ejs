@@ -213,7 +213,7 @@
     <h3>|</h3>
 
             <!-- Random Word Button-->
-    <button id="randomword" onclick="return false;">Random Word</button>
+    <button id="randomword" onclick="randomWordButton()">Random Word</button>
     </div>
 </div>
 <hr id="divider">
@@ -225,21 +225,21 @@
 <div id="wordwidget">
     <div id="wordbox">
         <div id="header">
-        <h1 id="wordTitle">Stifled</h1>
+        <h1 id="wordTitle"></h1>
         <!--Note: parts of speech VS part of speech-->
-        <p id="partsofspeech">(Adj., Verb)</p>
+        <p id="partsofspeech"></p>
         </div>
         <hr>
         <div id = "definitions">
             <div id="define">
-            <h3 id="partofspeech"> Adjective</h3>
-            <p id="definition">That has been interrupted, suppressed etc.</p>
-            <p id="example">The stifled attempt at reform led to further resentment.</p>
+            <h3 id="partofspeech"></h3>
+            <p id="definition"></p>
+            <p id="example"></p>
         </div>
 
         <div id="define">
-            <h3 id="partofspeech">Verb</h3>
-            <p id="definition">That has been interrupted, suppressed etc.</p>
+            <h3 id="partofspeech"></h3>
+            <p id="definition"></p>
         </div>
         </div>
         
@@ -327,6 +327,30 @@
             let buffer = "http://localhost:3000/"+address
             //alert(buffer)
             window.location.replace(buffer)
+        }
+
+        const api_url ="https://random-word-api.herokuapp.com/word?lang=en&number=10";
+        let word = ""
+        async function randomWordButton(){
+            const response = await fetch(api_url);
+            var data = await response.json();
+            // word = data.toString();
+            console.log(data);
+            
+            for(let i=0; i < 10; i++) {
+                const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${data[i].toString()}`)
+                getWord = await res.json();
+                console.log("WORDS", getWord);
+                if(getWord["title"] != "No Definitions Found") {
+                    // Save data to cache 
+                    localStorage.setItem('wordData', JSON.stringify(getWord));
+                    localStorage.setItem('searchItem', data[i].toString());
+
+                    // Change location to browse
+                    window.location.href = '/browse';
+                    break;
+                }
+            }
         }
 
         async function searchWord(){
