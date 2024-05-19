@@ -337,14 +337,14 @@
   }
   window.addEventListener('load', addDarkmodeWidget);
 </script>
-<script>
-    function redirect(address){
-        let buffer = "http://localhost:3000/"+address
-        //alert(buffer)
-        window.location.replace(buffer)
-    }
+    <script>
+        function redirect(address){
+            let buffer = "http://localhost:3000/"+address
+            //alert(buffer)
+            window.location.replace(buffer)
+        }
 
-    const api_url ="https://random-word-api.herokuapp.com/word?lang=en&number=10";
+        const api_url ="https://random-word-api.herokuapp.com/word?lang=en&number=10";
         let word = ""
         async function randomWordButton(){
             const response = await fetch(api_url);
@@ -368,7 +368,7 @@
             }
         }
 
-    function darkMode() {
+        function darkMode() {
             var element = document.body;
             element.classList.toggle("dark-mode");
         }
@@ -409,6 +409,6 @@
         searchWord();
         console.log('reached');
         });
-</script>
+    </script>
 </body>
 </html>
