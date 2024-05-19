@@ -219,7 +219,7 @@
     <h3>|</h3>
 
             <!-- Random Word Button-->
-    <button id="randomword" onclick="return false;">Random Word</button>
+        <button id="randomword" onclick="randomWordButton()">Random Word</button>
     </div>
 </div>
 <hr id="divider">
@@ -238,6 +238,7 @@
 
 <script>
 
+//============================================================= TYPE RACER
 
 async function test(){
     const response = await fetch('/testRequest', {
@@ -268,14 +269,14 @@ async function test(){
     console.log(stringArray2d)
 }
     
+// ============================================================= RANDOM WORD
 
 
-
-    const api_url ="https://random-word-api.herokuapp.com/word?lang=en";
+    const api_url2 ="https://random-word-api.herokuapp.com/word?lang=en";
 
 
     async function getapi(){
-        const response = await fetch(api_url);
+        const response = await fetch(api_url2);
         var data = await response.json();
         word = data.toString()
         word.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
@@ -292,10 +293,10 @@ async function test(){
         function startGame(){
             console.log("game started")
             gameStarted = true
-            getWord()
+            getWord2()
         }
 
-        function getWord(){
+        function getWord2(){
            getapi()
            gameStarted = false
         }
@@ -321,7 +322,7 @@ async function test(){
 
             update()
             if(document.getElementById("resultsDiv").innerHTML.length < 1){
-                getWord()
+                getWord2()
                 score2++
                 update()
             }
@@ -329,12 +330,54 @@ async function test(){
         }, true);
     //============================================================= WORD CHAIN
     //============================================================= OTHER FUNCTIONS
-
-        function redirect(address){
+    function redirect(address){
             let buffer = "http://localhost:3000/"+address
             //alert(buffer)
             window.location.replace(buffer)
         }
+
+        const api_url ="https://random-word-api.herokuapp.com/word?lang=en&number=10";
+        //let word = ""
+        async function randomWordButton(){
+            const response = await fetch(api_url);
+            var data = await response.json();
+            // word = data.toString();
+            console.log(data);
+            
+            for(let i=0; i < 10; i++) {
+                const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${data[i].toString()}`)
+                getWord = await res.json();
+                console.log("WORDS", getWord);
+                if(getWord["title"] != "No Definitions Found") {
+                    // Save data to cache 
+                    localStorage.setItem('wordData', JSON.stringify(getWord));
+                    localStorage.setItem('searchItem', data[i].toString());
+
+                    // Change location to browse
+                    window.location.href = '/browse';
+                    break;
+                }
+            }
+        }
+        async function randomWord() {
+            const response = await fetch(api_url);
+            var data = await response.json();
+            // word = data.toString();
+            console.log(data);
+            
+            for(let i=0; i < 10; i++) {
+                const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${data[i].toString()}`)
+                getWord = await res.json();
+                console.log("WORDS", getWord);
+                if(getWord["title"] != "No Definitions Found") {
+                    // Save data to cache 
+                    localStorage.setItem('wordData', JSON.stringify(getWord));
+                    localStorage.setItem('searchItem', data[i].toString());
+                    break;
+                }
+            }
+        }
+        window.addEventListener('load', randomWord);
 
         async function searchWord(){
         let getWord="";
@@ -364,10 +407,11 @@ async function test(){
 
 
         // Change location to browse
-        window.location.href = 'browse';
+        window.location.href = '/browse';
         }
 
         document.searchForm.addEventListener('submit', (event) => {
+
         searchWord();
         console.log('reached');
         });
