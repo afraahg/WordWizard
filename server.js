@@ -62,9 +62,19 @@ app.get('/browse', function (req, res) {
     res.render('browse')
 });
 
+app.get('/typeRacer', function (req, res) {
+    console.log("render type racer")
+    res.render('typeRacer')
+});
+
+app.get('/wordChain', function (req, res) {
+    console.log("render word chain")
+    res.render('wordChain')
+});
+
 app.get('/games', function (req, res) {
     console.log("render games")
-    res.render('typeRacer')
+    res.render('games')
 });
 
 app.get('/home', function (req, res) {
