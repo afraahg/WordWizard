@@ -172,7 +172,7 @@
         #wordbox{
             height: fit-content;
         }
-        #wordwidget, #gamewidget{
+        #wordwidget {
             margin: 10px;
             padding: 30px;
             border: 2.5px solid black ;
@@ -185,10 +185,22 @@
             display: flex;
             flex-direction: column;
             flex-wrap: nowrap;
+        }
+        #gamewidget {
+            margin: 10px;
+            padding: 30px;
+            border: 2.5px solid black ;
+            border-radius: 25px;
+            
+            width: 30%;
+            height: 400px;
 
-
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
 
         }
+
         #header{
             width: 50%;
             display: flex;
@@ -215,9 +227,9 @@
 
         <div id="navsearch">
         <h2 id="pagetitle">Home</h3>
-
+<!--  action="GET"-->
                 <!-- Search bar-->
-        <form name="searchForm" action="GET" id="searchForm" onsubmit="searchWord(); return false;">
+        <form name="searchForm" id="searchForm" onsubmit="searchWord(); return false;">
             <div id="barcontainer">
             <img src="\images\icons8-search.svg" alt="icon" id="searchicon">
             <input type="text" name="searchbar" id="searchbar">
@@ -263,10 +275,16 @@
     </div>
 
         <!--Featured Game-->
-        <div id="gamewidget"></div>
+        <div id="gamewidget" data-simple-slider>
+                <!-- <div id="gameSlider" > -->
+                    <img src="https://picsum.photos/612/612?random=1"/>
+                    <img src="https://picsum.photos/612/612?random=2"/>
+                <!-- </div> -->
+        </div>
         
     </div>  
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-slider/1.0.0/simpleslider.min.js"></script>
     <script>
         
         function redirect(address){
@@ -277,7 +295,7 @@
 
         async function searchWord(){
             let getWord="";
-            const searchItem = document.searchForm.searchbar.value;
+            const searchItem = document.getElementById("searchbar").value;
             if (!searchItem){
                 console.log("no input");
                 return false;
@@ -303,15 +321,21 @@
 
 
             // Change location to browse
-            window.location.href = '/htmlfiles/browse.html';
+            window.location.href = '/browse';
         }
 
         document.searchForm.addEventListener('submit', (event) => {
-
+            event.preventDefault();
             searchWord();
             console.log('reached');
         });
 
+        simpleslider.getSlider({
+            container: document.getElementById('gamewidget'),
+            transitionTime:1,
+            delay:3.5
+        });
     </script>
+    
 </body>
 </html>
