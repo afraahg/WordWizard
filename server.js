@@ -92,6 +92,15 @@ app.get('/settings', function (req, res) {
     res.render('settings')
 });
 
+app.get('/wordChain', function (req, res) {
+    console.log("render wordChain")
+    res.render('wordChain')
+});
+
+app.get('/typeRacer', function (req, res) {
+    console.log("render typeRacer")
+    res.render('typeRacer')
+});
 
 function runQuery(query){
     const spawner = require('child_process').spawn
