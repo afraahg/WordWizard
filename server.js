@@ -13,6 +13,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(express.static(path.join(__dirname + '/static')))
 
+var answer
 
 app.post('/Fetch_Data',(req,res)=>{
     console.log('inside Fetch_Data')
@@ -38,6 +39,18 @@ app.post('/Page3',(req,res)=>{
     }
 });
 
+app.post('/testRequest', async function(req, res) {
+    console.log(req.body)
+    
+    let script = 'SELECT * FROM scores'
+    await runQuery(script)
+
+    console.log(answer)
+        res.send({
+            'testVar': answer,
+          });
+  });
+
 
 app.get("/", (req, res) =>{
     console.log("reloading")
@@ -50,8 +63,8 @@ app.get('/browse', function (req, res) {
 });
 
 app.get('/games', function (req, res) {
-    console.log("render browse")
-    res.render('browse')
+    console.log("render games")
+    res.render('typeRacer')
 });
 
 app.get('/home', function (req, res) {
